@@ -64,19 +64,22 @@ void PFMProxy::initialize()
 	}
 }
 
-void PFMProxy::startMonitorThread()
+bool PFMProxy::startMonitorThread()
 {
 	if(!isPFMPresent_)
-		return;
+		return false;
 	if(pPFMMonitorThread_ != NULL)
-		return;
+		return true;
 
 	pPFMMonitorThread_ = new PFMMonitorThread();
 	if(!pPFMMonitorThread_->startThread())
 	{
 		delete pPFMMonitorThread_;
 		pPFMMonitorThread_ = NULL;
+		return false;
 	}
+	
+	return true;
 }
 
 void PFMProxy::closingDown()
